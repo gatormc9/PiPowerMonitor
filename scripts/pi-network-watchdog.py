@@ -47,7 +47,7 @@ CLIENTS = [
         "name": "OPNsense",
         "host": "root@192.168.22.1",
         "stop_cmd": "service nut_upsmon onestop",
-        "start_cmd": "service nut_upsmon onestart",
+        "start_cmd": "echo 'DEADTIME 60' >> /usr/local/etc/nut/upsmon.conf; service nut_upsmon onestart",
     },
     {
         "name": "MacMini",
