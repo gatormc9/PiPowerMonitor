@@ -1,4 +1,5 @@
 MONITOR ups@SERVERIP 1 monuser CHANGEME slave
+MONITOR fallback@FALLBACKIP 1 monuser CHANGEME slave
 SHUTDOWNCMD "/usr/local/bin/nut-shutdown.sh"
 POLLFREQ 5
 POLLFREQALERT 5

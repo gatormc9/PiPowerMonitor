@@ -1,0 +1,17 @@
+[Unit]
+Description=NUT Fallback Watchdog (mirrors Pi power monitor status)
+After=network-online.target nut-server.service
+Wants=network-online.target
+Requires=nut-server.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/nut-fallback/nut-fallback-watchdog.py
+Restart=on-failure
+RestartSec=10
+User=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
