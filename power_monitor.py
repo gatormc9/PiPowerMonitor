@@ -107,7 +107,9 @@ def write_state(status: str) -> None:
     Atomically write the dummy-ups .dev file with the given ups.status.
     dummy-ups format is one `key: value` per line.
     """
-    lines = [f"{k}: {v}" for k, v in STATIC_VARS.items()]
+    on_battery = status != "OL"
+    overrides = {"input.voltage": "0.0"} if on_battery else {}
+    lines = [f"{k}: {overrides.get(k, v)}" for k, v in STATIC_VARS.items()]
     lines.append(f"ups.status: {status}")
     body = "\n".join(lines) + "\n"
 
