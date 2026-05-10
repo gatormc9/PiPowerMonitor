@@ -1,0 +1,21 @@
+# Credentials — never commit real passwords
+upsd.users
+upsmon.conf
+!*.example
+.env
+PROJECT_SUMMARY.md
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backups
+*.bak
+
+# Claude Code local
+.claude/

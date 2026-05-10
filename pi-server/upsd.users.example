@@ -1,0 +1,7 @@
+[monitor]
+    password = CHANGEME
+    upsmon master
+
+[monuser]
+    password = CHANGEME
+    upsmon slave

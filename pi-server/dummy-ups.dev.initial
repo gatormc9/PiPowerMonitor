@@ -1,0 +1,15 @@
+device.mfr: DIY
+device.model: GPIO-AC-Monitor
+device.serial: rpi4-gpio17
+device.type: ups
+ups.mfr: DIY
+ups.model: GPIO-AC-Monitor
+ups.vendorid: 0000
+ups.productid: 0000
+battery.charge: 100
+battery.charge.low: 20
+battery.runtime: 600
+battery.runtime.low: 120
+input.voltage: 120.0
+input.frequency: 60.0
+ups.status: OL

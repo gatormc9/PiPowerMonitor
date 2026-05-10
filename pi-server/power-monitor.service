@@ -1,0 +1,17 @@
+[Unit]
+Description=AC Power Loss Monitor (GPIO -> NUT dummy-ups)
+After=network-online.target nut-driver.service
+Wants=network-online.target
+Before=nut-server.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/power-monitor/power_monitor.py
+Restart=on-failure
+RestartSec=5
+User=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
