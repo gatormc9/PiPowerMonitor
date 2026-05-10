@@ -191,7 +191,54 @@ sudo journalctl -u nut-monitor.service -n 100 --no-pager
 
 ---
 
-## 5. Editing configs (Pi)
+## 5. Pi Network Watchdog (miniUbuntu)
+
+### Service control
+```bash
+# Status
+sudo systemctl status pi-network-watchdog.service
+
+# Start / stop / restart
+sudo systemctl start pi-network-watchdog.service
+sudo systemctl stop pi-network-watchdog.service
+sudo systemctl restart pi-network-watchdog.service
+
+# Enable / disable at boot
+sudo systemctl enable pi-network-watchdog.service
+sudo systemctl disable pi-network-watchdog.service
+
+# Live logs
+sudo journalctl -u pi-network-watchdog.service -f
+
+# Last 200 lines
+sudo journalctl -u pi-network-watchdog.service -n 200 --no-pager
+```
+
+### Verify SSH connectivity to clients
+```bash
+# From miniUbuntu — test that the watchdog can reach each client
+ssh -o ConnectTimeout=5 -o BatchMode=yes root@192.168.22.1 "echo ok"
+ssh -o ConnectTimeout=5 -o BatchMode=yes gatormc9@192.168.22.12 "echo ok"
+```
+
+### Manually disable/enable upsmon on clients
+```bash
+# OPNsense
+ssh root@192.168.22.1 "service nut_upsmon onestop"
+ssh root@192.168.22.1 "service nut_upsmon onestart"
+
+# Mac Mini
+ssh gatormc9@192.168.22.12 "sudo launchctl bootout system /Library/LaunchDaemons/com.networkupstools.upsmon.plist"
+ssh gatormc9@192.168.22.12 "sudo launchctl bootstrap system /Library/LaunchDaemons/com.networkupstools.upsmon.plist"
+
+# Local (miniUbuntu)
+sudo systemctl stop nut-monitor
+sudo systemctl start nut-monitor
+```
+
+---
+
+## 6. Editing configs (Pi)
 
 ### After editing `/etc/nut/ups.conf` (driver definitions)
 ```bash
@@ -223,7 +270,7 @@ sudo systemctl start nut-server.service
 
 ---
 
-## 6. Network / capture (protocol confirmation)
+## 7. Network / capture (protocol confirmation)
 
 ### Capture NUT traffic on the Pi
 ```bash
@@ -242,7 +289,7 @@ on the TeraStation.
 
 ---
 
-## 7. Credential rotation
+## 8. Credential rotation
 
 ```bash
 # 1. Edit /etc/nut/upsd.users on the Pi, change `password = ...`
@@ -258,7 +305,7 @@ sudo systemctl restart nut-monitor.service
 
 ---
 
-## 8. End-to-end shutdown drill
+## 9. End-to-end shutdown drill
 
 1. On the Pi:
    ```bash

@@ -30,6 +30,7 @@ AC mains → 5V wall wart → 2N2222 transistor → GPIO 17
 - **Auto-recovery** — if AC returns during standby, Pi resumes automatically
 - **Manual test trigger** — `touch /tmp/power_fail_test` simulates AC loss without hardware
 - **Test-mode wrapper** — `touch /tmp/nut-test-mode` on clients prevents real shutdowns during drills
+- **Pi network watchdog** — secondary host monitors Pi availability; disables NUT clients if Pi goes down to prevent false shutdowns
 
 ## Quick Start
 
@@ -94,6 +95,14 @@ Key parameters in `power_monitor.py`:
 | `SHUTDOWN_HOLD_SECONDS` | 120 | Seconds to hold LB after trigger |
 | `SAFE_STANDBY_DELAY` | 30 | Extra seconds after hold before entering standby |
 | `DEBOUNCE_SAMPLES` | 3 | Consecutive matching reads required |
+
+## Pi Network Watchdog
+
+A secondary host (miniUbuntu) runs `pi-network-watchdog.py` to protect against false shutdowns when the Pi is unreachable (crash, network issue). If the Pi's NUT server stops responding, the watchdog SSHes into each NUT client and disables upsmon. When the Pi comes back, it re-enables upsmon.
+
+This works because if the watchdog host is alive, power is fine. In a real outage, the watchdog host loses power too and can't disable anything — clients react normally.
+
+See `scripts/pi-network-watchdog.py` for configuration and `clients/linux/pi-network-watchdog.service` for the systemd unit.
 
 ## License
 

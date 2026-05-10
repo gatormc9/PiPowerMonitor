@@ -1,0 +1,16 @@
+[Unit]
+Description=Pi Network Watchdog (disables NUT clients when Pi is unreachable)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/pi-network-watchdog/pi-network-watchdog.py
+Restart=on-failure
+RestartSec=10
+User=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
